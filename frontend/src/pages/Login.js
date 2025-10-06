@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { userAPI } from "../services/api";
 
 function Login({ onLogin }) {
@@ -9,6 +9,18 @@ function Login({ onLogin }) {
     role: "CUSTOMER",
   });
   const [error, setError] = useState("");
+  // UI animation states
+  const [visible, setVisible] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+
+  useEffect(() => {
+    // small delay so CSS transitions run after mount
+    const t = setTimeout(() => {
+      setVisible(true);
+      setExpanded(true);
+    }, 50);
+    return () => clearTimeout(t);
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -51,53 +63,56 @@ function Login({ onLogin }) {
 
   return (
     <div className="login-container">
-      <div className="login-box">
+      <h1 className="app-heading">InsurAI</h1>
+      <div className={`login-box ${visible ? "visible" : "hidden"}`}>
         <h2>{isRegister ? "Register" : "Login"}</h2>
         {error && <div className="error-message">{error}</div>}
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Username</label>
-            <input
-              type="text"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          {isRegister && (
+        <div className={`form-collapse ${expanded || isRegister ? "open" : ""}`}>
+          <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label>Role</label>
-              <select name="role" value={formData.role} onChange={handleChange}>
-                <option value="CUSTOMER">Customer</option>
-                <option value="AGENT">Agent</option>
-                <option value="ADMIN">Admin</option>
-              </select>
+              <label>Username</label>
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                required
+              />
             </div>
-          )}
-          <button type="submit" className="btn">
-            {isRegister ? "Register" : "Login"}
-          </button>
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={() => setIsRegister(!isRegister)}
-          >
-            {isRegister
-              ? "Already have an account? Login"
-              : "Don't have an account? Register"}
-          </button>
-        </form>
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            {isRegister && (
+              <div className="form-group">
+                <label>Role</label>
+                <select name="role" value={formData.role} onChange={handleChange}>
+                  <option value="CUSTOMER">Customer</option>
+                  <option value="AGENT">Agent</option>
+                  <option value="ADMIN">Admin</option>
+                </select>
+              </div>
+            )}
+            <button type="submit" className="btn">
+              {isRegister ? "Register" : "Login"}
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => setIsRegister(!isRegister)}
+            >
+              {isRegister
+                ? "Already have an account? Login"
+                : "Don't have an account? Register"}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
