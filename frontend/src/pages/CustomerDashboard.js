@@ -54,8 +54,8 @@ function CustomerDashboard({ user, onLogout }) {
   };
 
   return (
-    <div className="dashboard">
-      <div className="dashboard-header">
+    <div className="dashboard dashboard-container">
+      <div className="dashboard-header glass-header">
         <h1>Customer Dashboard</h1>
         <div>
           <span style={{ marginRight: '20px', color: '#666' }}>Welcome, {user.username}!</span>
@@ -65,7 +65,7 @@ function CustomerDashboard({ user, onLogout }) {
         </div>
       </div>
 
-      <div className="dashboard-content">
+      <div className="dashboard-content glass-container">
         <div className="section">
           <h2>Available Agents</h2>
           <div className="grid">

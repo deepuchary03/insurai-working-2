@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import CustomerDashboard from './pages/CustomerDashboard';
 import AgentDashboard from './pages/AgentDashboard';
 import AdminDashboard from './pages/AdminDashboard';
+import GeminiBackground from './Gemini_Generated.png';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -27,8 +28,10 @@ function App() {
   };
 
   return (
-    <Router>
-      <Routes>
+    <div className="app-container">
+      <div className="fixed-background"></div>
+      <Router>
+        <Routes>
         <Route 
           path="/" 
           element={
@@ -78,6 +81,7 @@ function App() {
         />
       </Routes>
     </Router>
+    </div>
   );
 }
 
