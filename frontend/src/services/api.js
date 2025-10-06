@@ -2,9 +2,10 @@ import axios from "axios";
 
 // Use environment variable for API URL, fallback to deployed Render backend (then localhost)
 const DEFAULT_BACKEND = "https://insurai-backend-latest.onrender.com";
-const API_BASE_URL = (process.env.REACT_APP_API_URL
-  ? `${process.env.REACT_APP_API_URL}/api`
-  : `${DEFAULT_BACKEND}/api`) || "http://localhost:8081/api";
+const API_BASE_URL =
+  (process.env.REACT_APP_API_URL
+    ? `${process.env.REACT_APP_API_URL}/api`
+    : `${DEFAULT_BACKEND}/api`) || "http://localhost:8081/api";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
