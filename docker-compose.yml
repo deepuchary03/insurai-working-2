@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  # Backend Service (H2 in-memory)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: insurance_backend
+    # Temporarily disable restart so failing containers do not loop — makes debugging easier
+    restart: "no"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    environment:
+      # H2 / JPA settings
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SERVER_PORT: 8081
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:insurancedb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.h2.Driver
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD:
+      SPRING_H2_CONSOLE_ENABLED: "true"
+      SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: "true"
+      SPRING_H2_CONSOLE_PATH: /h2-console
+    ports:
+      - "8081:8081"
+    networks:
+      - insurance_network
+
+  # Frontend Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: insurance_frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    environment:
+      - REACT_APP_API_URL=http://backend:8081
+    networks:
+      - insurance_network
+
+networks:
+  insurance_network:
+    driver: bridge

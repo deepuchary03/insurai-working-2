@@ -1,0 +1,28 @@
+# Docker ignore file for backend
+
+target/
+!target/\*.jar
+.mvn/
+mvnw
+mvnw.cmd
+
+# IDE files
+
+.idea/
+_.iml
+_.ipr
+\*.iws
+
+# OS files
+
+.DS_Store
+Thumbs.db
+
+# Logs
+
+\*.log
+
+# Environment files
+
+.env
+.env.local
