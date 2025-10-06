@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { userAPI, agentAPI, appointmentAPI, planAPI } from '../services/api';
+import React, { useState, useEffect } from "react";
+import { userAPI, agentAPI, appointmentAPI, planAPI } from "../services/api";
 
 function AdminDashboard({ user, onLogout }) {
   const [users, setUsers] = useState([]);
   const [agents, setAgents] = useState([]);
   const [appointments, setAppointments] = useState([]);
   const [plans, setPlans] = useState([]);
-  const [activeTab, setActiveTab] = useState('users');
+  const [activeTab, setActiveTab] = useState("users");
   const [showModal, setShowModal] = useState(false);
-  const [modalType, setModalType] = useState('');
+  const [modalType, setModalType] = useState("");
   const [formData, setFormData] = useState({});
 
   useEffect(() => {
@@ -17,18 +17,19 @@ function AdminDashboard({ user, onLogout }) {
 
   const fetchData = async () => {
     try {
-      const [usersRes, agentsRes, appointmentsRes, plansRes] = await Promise.all([
-        userAPI.getAllUsers(),
-        agentAPI.getAllAgents(),
-        appointmentAPI.getAllAppointments(),
-        planAPI.getAllPlans(),
-      ]);
+      const [usersRes, agentsRes, appointmentsRes, plansRes] =
+        await Promise.all([
+          userAPI.getAllUsers(),
+          agentAPI.getAllAgents(),
+          appointmentAPI.getAllAppointments(),
+          planAPI.getAllPlans(),
+        ]);
       setUsers(usersRes.data);
       setAgents(agentsRes.data);
       setAppointments(appointmentsRes.data);
       setPlans(plansRes.data);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   };
 
@@ -39,7 +40,7 @@ function AdminDashboard({ user, onLogout }) {
       setFormData({});
       fetchData();
     } catch (error) {
-      console.error('Error adding agent:', error);
+      console.error("Error adding agent:", error);
     }
   };
 
@@ -50,7 +51,7 @@ function AdminDashboard({ user, onLogout }) {
       setFormData({});
       fetchData();
     } catch (error) {
-      console.error('Error adding plan:', error);
+      console.error("Error adding plan:", error);
     }
   };
 
@@ -59,7 +60,7 @@ function AdminDashboard({ user, onLogout }) {
       await userAPI.deleteUser(id);
       fetchData();
     } catch (error) {
-      console.error('Error deleting user:', error);
+      console.error("Error deleting user:", error);
     }
   };
 
@@ -68,7 +69,7 @@ function AdminDashboard({ user, onLogout }) {
       await agentAPI.deleteAgent(id);
       fetchData();
     } catch (error) {
-      console.error('Error deleting agent:', error);
+      console.error("Error deleting agent:", error);
     }
   };
 
@@ -77,7 +78,7 @@ function AdminDashboard({ user, onLogout }) {
       await planAPI.deletePlan(id);
       fetchData();
     } catch (error) {
-      console.error('Error deleting plan:', error);
+      console.error("Error deleting plan:", error);
     }
   };
 
@@ -92,7 +93,9 @@ function AdminDashboard({ user, onLogout }) {
       <div className="dashboard-header glass-header">
         <h1>Admin Dashboard</h1>
         <div>
-          <span style={{ marginRight: '20px', color: '#666' }}>Welcome, {user.username}!</span>
+          <span style={{ marginRight: "20px", color: "#666" }}>
+            Welcome, {user.username}!
+          </span>
           <button className="btn btn-danger" onClick={onLogout}>
             Logout
           </button>
@@ -100,34 +103,36 @@ function AdminDashboard({ user, onLogout }) {
       </div>
 
       <div className="dashboard-content glass-container">
-        <div style={{ marginBottom: '20px', display: 'flex', gap: '10px' }}>
+        <div style={{ marginBottom: "20px", display: "flex", gap: "10px" }}>
           <button
-            className={`btn ${activeTab === 'users' ? '' : 'btn-secondary'}`}
-            onClick={() => setActiveTab('users')}
+            className={`btn ${activeTab === "users" ? "" : "btn-secondary"}`}
+            onClick={() => setActiveTab("users")}
           >
             Users ({users.length})
           </button>
           <button
-            className={`btn ${activeTab === 'agents' ? '' : 'btn-secondary'}`}
-            onClick={() => setActiveTab('agents')}
+            className={`btn ${activeTab === "agents" ? "" : "btn-secondary"}`}
+            onClick={() => setActiveTab("agents")}
           >
             Agents ({agents.length})
           </button>
           <button
-            className={`btn ${activeTab === 'appointments' ? '' : 'btn-secondary'}`}
-            onClick={() => setActiveTab('appointments')}
+            className={`btn ${
+              activeTab === "appointments" ? "" : "btn-secondary"
+            }`}
+            onClick={() => setActiveTab("appointments")}
           >
             Appointments ({appointments.length})
           </button>
           <button
-            className={`btn ${activeTab === 'plans' ? '' : 'btn-secondary'}`}
-            onClick={() => setActiveTab('plans')}
+            className={`btn ${activeTab === "plans" ? "" : "btn-secondary"}`}
+            onClick={() => setActiveTab("plans")}
           >
             Plans ({plans.length})
           </button>
         </div>
 
-        {activeTab === 'users' && (
+        {activeTab === "users" && (
           <div className="section">
             <h2>Users Management</h2>
             <div className="table-container">
@@ -162,10 +167,14 @@ function AdminDashboard({ user, onLogout }) {
           </div>
         )}
 
-        {activeTab === 'agents' && (
+        {activeTab === "agents" && (
           <div className="section">
             <h2>Agents Management</h2>
-            <button className="btn" style={{ marginBottom: '20px' }} onClick={() => openModal('agent')}>
+            <button
+              className="btn"
+              style={{ marginBottom: "20px" }}
+              onClick={() => openModal("agent")}
+            >
               Add New Agent
             </button>
             <div className="table-container">
@@ -202,7 +211,7 @@ function AdminDashboard({ user, onLogout }) {
           </div>
         )}
 
-        {activeTab === 'appointments' && (
+        {activeTab === "appointments" && (
           <div className="section">
             <h2>Appointments Management</h2>
             <div className="table-container">
@@ -232,10 +241,14 @@ function AdminDashboard({ user, onLogout }) {
           </div>
         )}
 
-        {activeTab === 'plans' && (
+        {activeTab === "plans" && (
           <div className="section">
             <h2>Insurance Plans Management</h2>
-            <button className="btn" style={{ marginBottom: '20px' }} onClick={() => openModal('plan')}>
+            <button
+              className="btn"
+              style={{ marginBottom: "20px" }}
+              onClick={() => openModal("plan")}
+            >
               Add New Plan
             </button>
             <div className="table-container">
@@ -276,38 +289,50 @@ function AdminDashboard({ user, onLogout }) {
       {showModal && (
         <div className="modal" onClick={() => setShowModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3>{modalType === 'agent' ? 'Add New Agent' : 'Add New Plan'}</h3>
-            {modalType === 'agent' ? (
+            <h3>{modalType === "agent" ? "Add New Agent" : "Add New Plan"}</h3>
+            {modalType === "agent" ? (
               <>
                 <div className="form-group">
                   <label>Name</label>
                   <input
                     type="text"
-                    value={formData.name || ''}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    value={formData.name || ""}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                   />
                 </div>
                 <div className="form-group">
                   <label>Specialization</label>
                   <input
                     type="text"
-                    value={formData.specialization || ''}
-                    onChange={(e) => setFormData({ ...formData, specialization: e.target.value })}
+                    value={formData.specialization || ""}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        specialization: e.target.value,
+                      })
+                    }
                   />
                 </div>
                 <div className="form-group">
                   <label>Availability</label>
                   <input
                     type="text"
-                    value={formData.availability || ''}
-                    onChange={(e) => setFormData({ ...formData, availability: e.target.value })}
+                    value={formData.availability || ""}
+                    onChange={(e) =>
+                      setFormData({ ...formData, availability: e.target.value })
+                    }
                   />
                 </div>
                 <div className="action-buttons">
                   <button className="btn" onClick={handleAddAgent}>
                     Add Agent
                   </button>
-                  <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => setShowModal(false)}
+                  >
                     Cancel
                   </button>
                 </div>
@@ -318,30 +343,42 @@ function AdminDashboard({ user, onLogout }) {
                   <label>Plan Name</label>
                   <input
                     type="text"
-                    value={formData.planName || ''}
-                    onChange={(e) => setFormData({ ...formData, planName: e.target.value })}
+                    value={formData.planName || ""}
+                    onChange={(e) =>
+                      setFormData({ ...formData, planName: e.target.value })
+                    }
                   />
                 </div>
                 <div className="form-group">
                   <label>Description</label>
                   <textarea
-                    value={formData.description || ''}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    value={formData.description || ""}
+                    onChange={(e) =>
+                      setFormData({ ...formData, description: e.target.value })
+                    }
                   />
                 </div>
                 <div className="form-group">
                   <label>Price</label>
                   <input
                     type="number"
-                    value={formData.price || ''}
-                    onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
+                    value={formData.price || ""}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        price: parseFloat(e.target.value),
+                      })
+                    }
                   />
                 </div>
                 <div className="action-buttons">
                   <button className="btn" onClick={handleAddPlan}>
                     Add Plan
                   </button>
-                  <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => setShowModal(false)}
+                  >
                     Cancel
                   </button>
                 </div>

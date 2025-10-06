@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { agentAPI, appointmentAPI } from '../services/api';
+import React, { useState, useEffect } from "react";
+import { agentAPI, appointmentAPI } from "../services/api";
 
 function AgentDashboard({ user, onLogout }) {
   const [agentProfile, setAgentProfile] = useState(null);
   const [appointments, setAppointments] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    specialization: '',
-    availability: '',
+    name: "",
+    specialization: "",
+    availability: "",
   });
 
   useEffect(() => {
@@ -18,8 +18,10 @@ function AgentDashboard({ user, onLogout }) {
   const fetchData = async () => {
     try {
       const agentsRes = await agentAPI.getAllAgents();
-      const myProfile = agentsRes.data.find(a => a.name === user.username) || agentsRes.data[0];
-      
+      const myProfile =
+        agentsRes.data.find((a) => a.name === user.username) ||
+        agentsRes.data[0];
+
       if (myProfile) {
         setAgentProfile(myProfile);
         setFormData({
@@ -27,12 +29,14 @@ function AgentDashboard({ user, onLogout }) {
           specialization: myProfile.specialization,
           availability: myProfile.availability,
         });
-        
-        const appointmentsRes = await appointmentAPI.getAppointmentsByAgent(myProfile.id);
+
+        const appointmentsRes = await appointmentAPI.getAppointmentsByAgent(
+          myProfile.id
+        );
         setAppointments(appointmentsRes.data);
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   };
 
@@ -42,7 +46,7 @@ function AgentDashboard({ user, onLogout }) {
       setShowEditModal(false);
       fetchData();
     } catch (error) {
-      console.error('Error updating profile:', error);
+      console.error("Error updating profile:", error);
     }
   };
 
@@ -51,7 +55,9 @@ function AgentDashboard({ user, onLogout }) {
       <div className="dashboard-header glass-header">
         <h1>Agent Dashboard</h1>
         <div>
-          <span style={{ marginRight: '20px', color: '#666' }}>Welcome, {user.username}!</span>
+          <span style={{ marginRight: "20px", color: "#666" }}>
+            Welcome, {user.username}!
+          </span>
           <button className="btn btn-danger" onClick={onLogout}>
             Logout
           </button>
@@ -64,8 +70,12 @@ function AgentDashboard({ user, onLogout }) {
             <h2>My Profile</h2>
             <div className="card">
               <h3>{agentProfile.name}</h3>
-              <p><strong>Specialization:</strong> {agentProfile.specialization}</p>
-              <p><strong>Availability:</strong> {agentProfile.availability}</p>
+              <p>
+                <strong>Specialization:</strong> {agentProfile.specialization}
+              </p>
+              <p>
+                <strong>Availability:</strong> {agentProfile.availability}
+              </p>
               <button className="btn" onClick={() => setShowEditModal(true)}>
                 Edit Profile
               </button>
@@ -107,7 +117,9 @@ function AgentDashboard({ user, onLogout }) {
               <input
                 type="text"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
               />
             </div>
             <div className="form-group">
@@ -115,7 +127,9 @@ function AgentDashboard({ user, onLogout }) {
               <input
                 type="text"
                 value={formData.specialization}
-                onChange={(e) => setFormData({ ...formData, specialization: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, specialization: e.target.value })
+                }
               />
             </div>
             <div className="form-group">
@@ -123,7 +137,9 @@ function AgentDashboard({ user, onLogout }) {
               <input
                 type="text"
                 value={formData.availability}
-                onChange={(e) => setFormData({ ...formData, availability: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, availability: e.target.value })
+                }
               />
             </div>
             <div className="action-buttons">

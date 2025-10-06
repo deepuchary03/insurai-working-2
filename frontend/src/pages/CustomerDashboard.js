@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { agentAPI, appointmentAPI, planAPI } from '../services/api';
+import React, { useState, useEffect } from "react";
+import { agentAPI, appointmentAPI, planAPI } from "../services/api";
 
 function CustomerDashboard({ user, onLogout }) {
   const [agents, setAgents] = useState([]);
@@ -7,7 +7,7 @@ function CustomerDashboard({ user, onLogout }) {
   const [plans, setPlans] = useState([]);
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState(null);
-  const [appointmentDate, setAppointmentDate] = useState('');
+  const [appointmentDate, setAppointmentDate] = useState("");
 
   useEffect(() => {
     fetchData();
@@ -24,7 +24,7 @@ function CustomerDashboard({ user, onLogout }) {
       setAppointments(appointmentsRes.data);
       setPlans(plansRes.data);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   };
 
@@ -37,10 +37,10 @@ function CustomerDashboard({ user, onLogout }) {
       });
       setShowBookingModal(false);
       setSelectedAgent(null);
-      setAppointmentDate('');
+      setAppointmentDate("");
       fetchData();
     } catch (error) {
-      console.error('Error booking appointment:', error);
+      console.error("Error booking appointment:", error);
     }
   };
 
@@ -49,7 +49,7 @@ function CustomerDashboard({ user, onLogout }) {
       await appointmentAPI.deleteAppointment(id);
       fetchData();
     } catch (error) {
-      console.error('Error cancelling appointment:', error);
+      console.error("Error cancelling appointment:", error);
     }
   };
 
@@ -58,7 +58,9 @@ function CustomerDashboard({ user, onLogout }) {
       <div className="dashboard-header glass-header">
         <h1>Customer Dashboard</h1>
         <div>
-          <span style={{ marginRight: '20px', color: '#666' }}>Welcome, {user.username}!</span>
+          <span style={{ marginRight: "20px", color: "#666" }}>
+            Welcome, {user.username}!
+          </span>
           <button className="btn btn-danger" onClick={onLogout}>
             Logout
           </button>
@@ -72,8 +74,12 @@ function CustomerDashboard({ user, onLogout }) {
             {agents.map((agent) => (
               <div key={agent.id} className="card">
                 <h3>{agent.name}</h3>
-                <p><strong>Specialization:</strong> {agent.specialization}</p>
-                <p><strong>Availability:</strong> {agent.availability}</p>
+                <p>
+                  <strong>Specialization:</strong> {agent.specialization}
+                </p>
+                <p>
+                  <strong>Availability:</strong> {agent.availability}
+                </p>
                 <button
                   className="btn"
                   onClick={() => {
@@ -128,7 +134,9 @@ function CustomerDashboard({ user, onLogout }) {
               <div key={plan.id} className="card">
                 <h3>{plan.planName}</h3>
                 <p>{plan.description}</p>
-                <p><strong>Price:</strong> ${plan.price}</p>
+                <p>
+                  <strong>Price:</strong> ${plan.price}
+                </p>
               </div>
             ))}
           </div>
